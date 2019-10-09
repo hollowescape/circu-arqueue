@@ -1,0 +1,25 @@
+						Week -5 
+    1. Write a java program for the given data:
+ super class: Animal  methods: eat () ,sleep(), moves()
+subclass: whale, Bat, Dog. Create class, objects and test it.
+    2. Illustrate Constructor chaining and method overriding with the following details.
+Superclass add :  instance variables :a,b,add(),calci(int a,int b);
+Subclass of add: sub  instance variables :a,b,sub(),calci(int a,int b);
+Subclass of sub : mul  instance variables :a,b,mul (),calci(int a,int b);
+Subclass of mul:div instance variables :a,b,div (),calci(int a,int b);
+    3. Illustrate  with a program Dynamic method Dispatch 
+    4. Illustrate with a program the uses of final keyword.
+    5. Program to illustrate method overriding in which super class prints the messge "hello oops" and subclass prints "hello java".
+    6. Illustrate the order of invoking constructors.
+    7. Implement the following using interfaces.
+
+
+
+
+
+8.
+
+
+
+
+
