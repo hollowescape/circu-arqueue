@@ -1,116 +1,119 @@
 #include<stdio.h>
-#define Max_size 100
-#define Ex 100
+#include<stdlib.h>
 
-int stack[Max_size];
-char expr[Ex];
-typedef enum{ lparen , rparen,plus,minus,times,divide,mod,eos,operand
-}precendence;
- int top=0;
- int isp[]={0,19,12,12,13,13,13,0};
- int icp[]={20,19,12,12,13,13,13,0};
+#define MALLOC(p,s)\
+	if(!((p)=malloc(s))){\
+		printf(" insuffient memory");\
+	}\
 
-precendence gettoken(char *s, int *n)
-{
-	*s=expr[(*n)++];
-	switch(*s)
+#define REALLOC(p,s)\
+	if(!((p)=realloc((p),(s)))){\
+		printf(" insuffient memory");\
+	}\
+
+typedef struct{
+	int key;
+}element;
+
+element *queue,*newqueue;
+int r=0;
+int f=0;
+int cp=1;
+
+
+	void rall(element *s)
 	{
-		case '(': return lparen;
-		case ')': return rparen;
-		case '+': return plus;
-		case '-': return minus;
-		case '*': return times;
-		case '/': return divide;
-		case '%': return mod;
-		case '\0':return eos;
-		default: return operand;
+		REALLOC(s,cp*sizeof(element));
+		cp*=2;
+	}
+void copy(element *i,element *j,element *nq)
+{	
+	int a=0;
+	while(i<j)
+	{
+		nq[a]=*i;
+		i++;
+		a++;
 
 	}
 }
-char print_token(precendence token)
+
+
+
+void addq(element item)
 {
-	switch(token)
+	if(f==(r+1)%cp)
 	{
-		case lparen: printf("(");
-					 break;
-		case rparen: printf(")");
-					 break;
-		case plus: printf("+");
-					break;
-		case minus: printf("-");
-					break;	
-		case times: printf("*");
-					break;
-		case divide: printf("/");
-					break;
-		case mod: printf(" %");
-					break;
-	}
-}
-void add(precendence token)
-{
-	if(top>100)
+		MALLOC(newqueue,2*cp*sizeof(*queue));
+	int s=(f+1)%cp;
+	if(s<2)
 	{
-		printf(" stack is full");
+		copy(queue+s,queue+s+cp-1,newqueue);
 	}
 	else
 	{
-		stack[++top]=token;
-	}
-}
+		copy(queue+s,queue+cp,newqueue);
+		copy(queue,queue+r+1,newqueue+cp-s);
 
-precendence delete()
-{
-	if(top<-1)
-	{
-		printf(" stack is empty");
 	}
-	else
-	{
-		return stack[top--];
+	f=2*cp-1;
+	r=cp-2;
+	cp*=2;
+	free(queue);
+	queue=newqueue;		
+		
+
 	}
-}
-void postfix(void)
-{
-	char sym;
-	precendence token;
-	int n=0;
-	stack[0]=eos;
-	for(token=gettoken(&sym,&n);token!=eos;token=gettoken(&sym,&n))
-	{	
-				if(token==operand)
-					{
-						printf("%c",sym);
-					}	
-				
-			else if(token==rparen)
-				{	
-					while(stack[top]!=lparen)
-					{
-					print_token(delete(top));
-					}
-					delete(top);
-				}
-					
-				else
-				{
-					while(isp[stack[top]]>=icp[token])
-						print_token(delete(top));
-					 add(token);
-				}
 	
+	r=(r+1)%cp;
+		queue[r]=item;
+		
 }
-	while((token=delete(top))!=eos)
-	{
-		print_token(token);
-		printf("\n");
-	}
 
+element delq(int *f,int r)
+{
+	if(*f==r)
+	printf(" queue is empty\n");
+	*f=(*f+1)%cp;
+	return queue[*f];
 }
+void display(element *q,int r,int f)
+{	int i,k;
+	for(i=(f+1)%cp,k=0;i!=(r+1)%cp;i=(i+1)%cp)
+	{
+		printf(" the element %d is %d ",k,queue[i].key);
+		k++;
+	}
+}
+
 
 void main()
 {
-	printf(" enter the infix string \n");
-	scanf(" %s",expr);
-	postfix();
-}
+	element d,p;
+	int c;
+	MALLOC(queue,sizeof(element));
+	printf(" enter the choice \n");
+		while(1)
+		{ //printf(" %ld",sizeof());
+		printf(" 1. insert\n 2. delete\n 3. display\n 4.exit\n");
+		scanf("%d",&c);
+		switch(c)
+		{
+			case 1: printf(" enter the element to insert\n");
+					scanf("%d",&d.key);
+					addq(d);
+					break;
+			case 2: p=delq(&f,r);
+					printf(" element deleted from the queue is %d",p.key);
+					break;
+			case 3: display(queue,r,f);
+					break;
+			case 4: exit(0);
+					break;
+
+
+		}
+	}
+	free(queue);
+}		
+
