@@ -100,7 +100,7 @@ void postfix(void)
 				}
 	
 }
-	while(token=delete(top)!=eos)
+	while((token=delete(top))!=eos)
 	{
 		print_token(token);
 		printf("\n");
