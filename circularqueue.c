@@ -72,8 +72,10 @@ void addq(element item)
 
 element delq(int *f,int r)
 {
-	if(*f==r)
+	if(*f==r){
 	printf(" queue is empty\n");
+	exit(0);
+	}
 	*f=(*f+1)%cp;
 	return queue[*f];
 }
